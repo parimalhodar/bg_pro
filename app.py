@@ -62,261 +62,518 @@ def replace_background(original_img: Image.Image, background_removed_img: Image.
     
     return result
 
-# Custom CSS with simplified mobile view and color consistency
+# Enhanced CSS with perfect mobile/desktop and dark/light mode support
 st.markdown("""
 <style>
     /* Import modern fonts */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    /* CSS Variables for consistent theming */
+    /* CSS Variables for Light Mode (Default) */
     :root {
         --primary-color: #4A3AFF;
-        --text-primary: #1A1A1A;
-        --text-secondary: #666666;
+        --primary-hover: #3B2ECC;
+        --primary-active: #2E23B3;
+        --primary-light: #E0DCFF;
+        
+        --text-primary: #1F2937;
+        --text-secondary: #6B7280;
+        --text-tertiary: #9CA3AF;
+        --text-inverse: #FFFFFF;
+        --text-on-primary: #FFFFFF;
+        
         --bg-primary: #FFFFFF;
-        --bg-card: #F7F7F8;
-        --border-color: #E5E5E5;
-        --shadow-light: 0 4px 16px rgba(0, 0, 0, 0.1);
-        --shadow-medium: 0 6px 24px rgba(0, 0, 0, 0.15);
+        --bg-secondary: #F9FAFB;
+        --bg-card: #FFFFFF;
+        --bg-card-hover: #F3F4F6;
+        --bg-input: #FFFFFF;
+        --bg-accent: #EFF6FF;
+        
+        --border-light: #E5E7EB;
+        --border-medium: #D1D5DB;
+        --border-strong: #9CA3AF;
+        --border-focus: #4A3AFF;
+        
+        --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        
+        --success-color: #10B981;
+        --success-bg: #ECFDF5;
+        --warning-color: #F59E0B;
+        --warning-bg: #FFFBEB;
+        --error-color: #EF4444;
+        --error-bg: #FEF2F2;
+        --info-color: #3B82F6;
+        --info-bg: #EFF6FF;
+        
+        --border-radius-sm: 6px;
         --border-radius: 8px;
         --border-radius-lg: 12px;
+        --border-radius-xl: 16px;
+        
+        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Mobile-first base styles */
+    /* Dark Mode Variables */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+            --text-tertiary: #9CA3AF;
+            --text-inverse: #1F2937;
+            --text-on-primary: #FFFFFF;
+            
+            --bg-primary: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-card: #1E293B;
+            --bg-card-hover: #334155;
+            --bg-input: #334155;
+            --bg-accent: #1E293B;
+            
+            --border-light: #334155;
+            --border-medium: #475569;
+            --border-strong: #64748B;
+            
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+            
+            --success-bg: #064E3B;
+            --warning-bg: #78350F;
+            --error-bg: #7F1D1D;
+            --info-bg: #1E3A8A;
+            --primary-light: #2E23B3;
+        }
+    }
+
+    /* Base App Styles */
     .stApp {
         background: var(--bg-primary);
         min-height: 100vh;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         color: var(--text-primary);
-        line-height: 1.5;
-        padding: 1rem;
-        box-sizing: border-box;
+        line-height: 1.6;
+        transition: var(--transition);
     }
 
     /* Main container */
     .main .block-container {
         max-width: 100%;
         margin: 0 auto;
-        padding: 0;
+        padding: 1rem;
         background: transparent;
         width: 100%;
     }
 
-    /* Card */
+    /* Card styles */
     .card {
         background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius);
+        border: 1px solid var(--border-light);
+        border-radius: var(--border-radius-lg);
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        box-shadow: var(--shadow-light);
-        transition: box-shadow 0.3s ease;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition-slow);
+        backdrop-filter: blur(8px);
     }
 
     .card:hover {
-        box-shadow: var(--shadow-medium);
+        box-shadow: var(--shadow-md);
+        border-color: var(--border-medium);
+        transform: translateY(-1px);
     }
 
-    /* Radio buttons */
-    .stRadio > div {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding: 0;
-        background: transparent;
-        border-radius: var(--border-radius);
+    /* Header styles */
+    .header {
+        background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-accent) 100%);
+        border: 1px solid var(--border-light);
+        border-radius: var(--border-radius-xl);
+        padding: 2rem 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
     }
 
-    .stRadio label {
-        font-size: 1rem;
-        font-weight: 500;
+    .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-hover), var(--primary-color));
+    }
+
+    .header h1 {
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+        font-weight: 700;
         color: var(--text-primary);
-        padding: 0.75rem 1rem;
-        border-radius: var(--border-radius);
-        background: var(--bg-primary);
-        border: 1px solid var(--border-color);
-        transition: all 0.3s ease;
-        cursor: pointer;
-        min-height: 50px;
-        display: flex;
-        align-items: center;
-        box-shadow: var(--shadow-light);
-        width: 100%;
+        margin: 0 0 0.5rem 0;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
-    .stRadio label:hover {
-        border-color: var(--primary-color);
-        transform: scale(1.02);
+    .header p {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin: 0;
+        font-weight: 400;
     }
 
-    .stRadio input[type="radio"] {
-        accent-color: var(--primary-color);
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-right: 0.75rem;
-    }
-
-    .stRadio input[type="radio"]:checked + div {
-        background: var(--primary-color);
-        color: var(--bg-primary);
-        border-color: var(--primary-color);
-        box-shadow: var(--shadow-medium);
-    }
-
-    /* Buttons */
+    /* Button styles */
     .stButton > button {
-        background: var(--primary-color);
-        color: var(--bg-primary);
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        color: var(--text-on-primary);
         border: none;
         border-radius: var(--border-radius);
-        padding: 0.8rem 1.5rem;
+        padding: 0.875rem 1.75rem;
         font-size: 1rem;
         font-weight: 600;
         font-family: 'Inter', sans-serif;
         width: 100%;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow-light);
-        min-height: 50px;
+        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+        min-height: 48px;
         text-transform: none;
+        position: relative;
+        overflow: hidden;
+        letter-spacing: 0.025em;
     }
 
-    .stButton > button:hover,
-    .stButton > button:focus {
-        background: #3B2ECC;
-        transform: scale(1.05);
-        box-shadow: var(--shadow-medium);
-        outline: none;
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .stButton > button:hover {
+        background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-active) 100%);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .stButton > button:hover::before {
+        left: 100%;
     }
 
     .stButton > button:active {
-        transform: scale(1);
-        box-shadow: var(--shadow-light);
+        transform: translateY(0);
+        box-shadow: var(--shadow-sm);
     }
 
-    /* Header */
-    .header {
-        background: var(--bg-primary);
-        border-radius: var(--border-radius-lg);
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        box-shadow: var(--shadow-light);
+    .stButton > button:focus {
+        outline: 2px solid var(--primary-light);
+        outline-offset: 2px;
     }
 
-    .header h1 {
-        font-size: clamp(1.5rem, 6vw, 2rem);
-        font-weight: 700;
-        font-family: 'Inter', sans-serif;
-        color: var(--text-primary);
-        margin-bottom: 0.5rem;
+    /* Radio button styles */
+    .stRadio > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0;
+        background: transparent;
     }
 
-    .header p {
+    .stRadio > div > label {
         font-size: 1rem;
-        color: var(--text-secondary);
-    }
-
-    /* Output images */
-    .stImage img {
-        max-width: min(100%, 200px);
-        height: auto;
+        font-weight: 500;
+        color: var(--text-primary);
+        padding: 1rem 1.25rem;
         border-radius: var(--border-radius);
-        box-shadow: var(--shadow-light);
-        object-fit: contain;
+        background: var(--bg-input);
+        border: 2px solid var(--border-light);
+        transition: var(--transition);
+        cursor: pointer;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        box-shadow: var(--shadow-xs);
+        position: relative;
+        overflow: hidden;
     }
 
-    /* Footer */
-    .footer {
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
+    .stRadio > div > label:hover {
+        border-color: var(--primary-color);
+        background: var(--bg-card-hover);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .stRadio > div > label:has(input:checked) {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        color: var(--text-on-primary);
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-md);
+        font-weight: 600;
+    }
+
+    .stRadio input[type="radio"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.75rem;
+        accent-color: var(--text-on-primary);
+        flex-shrink: 0;
+    }
+
+    /* Select box styles */
+    .stSelectbox > div > div {
+        background: var(--bg-input);
+        border: 2px solid var(--border-light);
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+    }
+
+    .stSelectbox > div > div:hover {
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .stSelectbox > div > div:focus-within {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    /* File uploader styles */
+    .stFileUploader > div {
+        background: var(--bg-input);
+        border: 2px dashed var(--border-medium);
         border-radius: var(--border-radius-lg);
-        padding: 1.5rem;
-        margin-top: 1.5rem;
+        padding: 2rem;
+        transition: var(--transition);
         text-align: center;
-        box-shadow: var(--shadow-light);
-        font-size: 0.9rem;
-        color: var(--text-secondary);
+    }
+
+    .stFileUploader > div:hover {
+        border-color: var(--primary-color);
+        background: var(--bg-card-hover);
+    }
+
+    /* Checkbox styles */
+    .stCheckbox > label {
+        color: var(--text-primary);
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .stCheckbox input[type="checkbox"] {
+        accent-color: var(--primary-color);
+        width: 1.125rem;
+        height: 1.125rem;
+        margin-right: 0.5rem;
+    }
+
+    /* Color picker styles */
+    .stColorPicker > div > div {
+        border: 2px solid var(--border-light);
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+    }
+
+    .stColorPicker > div > div:hover {
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Slider styles */
+    .stSlider > div > div > div {
+        background: var(--bg-input);
+        border-radius: var(--border-radius);
+    }
+
+    .stSlider .stSlider > div > div > div > div {
+        background: var(--primary-color);
+    }
+
+    /* Progress bar styles */
+    .stProgress > div > div > div {
+        background: var(--primary-color);
+        border-radius: var(--border-radius);
+    }
+
+    /* Image styles */
+    .stImage img {
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+
+    .stImage img:hover {
+        box-shadow: var(--shadow-md);
+        transform: scale(1.02);
+    }
+
+    /* Expander styles */
+    .stExpander {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-xs);
+        overflow: hidden;
+    }
+
+    .stExpander > div > div > div:first-child {
+        background: var(--bg-card-hover);
+        border-bottom: 1px solid var(--border-light);
+        padding: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    /* Alert styles */
+    .stInfo, .stSuccess, .stWarning, .stError {
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        margin: 0.5rem 0;
+        font-weight: 500;
+    }
+
+    .stInfo {
+        background: var(--info-bg);
+        color: var(--info-color);
+        border-left: 4px solid var(--info-color);
+    }
+
+    .stSuccess {
+        background: var(--success-bg);
+        color: var(--success-color);
+        border-left: 4px solid var(--success-color);
+    }
+
+    .stWarning {
+        background: var(--warning-bg);
+        color: var(--warning-color);
+        border-left: 4px solid var(--warning-color);
+    }
+
+    .stError {
+        background: var(--error-bg);
+        color: var(--error-color);
+        border-left: 4px solid var(--error-color);
+    }
+
+    /* Sidebar styles */
+    .css-1d391kg {
+        background: var(--bg-secondary);
+        border-right: 1px solid var(--border-light);
+    }
+
+    /* Footer styles */
+    .footer {
+        background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-accent) 100%);
+        border: 1px solid var(--border-light);
+        border-radius: var(--border-radius-xl);
+        padding: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+        position: relative;
+    }
+
+    .footer::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-hover), var(--primary-color));
     }
 
     .footer h4 {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
         color: var(--text-primary);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
     }
 
-    /* Mobile-specific styles (refined for simplicity) */
-    @media (max-width: 768px) {
-        .stApp {
-            padding: 1rem;
-        }
+    .footer p {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin: 0.5rem 0;
+        line-height: 1.6;
+    }
 
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
         .main .block-container {
-            padding: 0;
+            padding: 0.75rem;
         }
 
         .card {
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stRadio > div {
-            gap: 1rem;
-        }
-
-        .stRadio label {
-            font-size: 1rem;
-            padding: 0.75rem 1rem;
-            min-height: 50px;
-        }
-
-        .stRadio input[type="radio"] {
-            width: 1.5rem;
-            height: 1.5rem;
-            margin-right: 0.75rem;
-        }
-
-        .stButton > button {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            min-height: 50px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-radius: var(--border-radius);
         }
 
         .header {
-            padding: 1.5rem;
+            padding: 1.5rem 1rem;
+            margin-bottom: 1.25rem;
+            border-radius: var(--border-radius-lg);
         }
 
         .header h1 {
-            font-size: clamp(1.5rem, 6vw, 2rem);
+            font-size: clamp(1.5rem, 6vw, 1.875rem);
         }
 
         .header p {
             font-size: 1rem;
         }
 
-        .stImage img {
-            max-width: min(100%, 200px);
-            width: 100%;
+        .stButton > button {
+            padding: 0.875rem 1.25rem;
+            font-size: 0.95rem;
+            min-height: 48px;
+        }
+
+        .stRadio > div > label {
+            padding: 0.875rem 1rem;
+            min-height: 48px;
+            font-size: 0.95rem;
+        }
+
+        .stRadio input[type="radio"] {
+            width: 1.125rem;
+            height: 1.125rem;
         }
 
         .footer {
             padding: 1.5rem;
-            font-size: 0.9rem;
+            border-radius: var(--border-radius-lg);
         }
 
         .footer h4 {
-            font-size: 1.1rem;
+            font-size: 1.125rem;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+        }
+
+        .stImage img {
+            max-width: 100%;
+            width: 100%;
         }
     }
 
-    /* PC-specific styles (unchanged) */
+    /* Desktop optimizations */
     @media (min-width: 769px) {
-        .stApp {
-            padding: 1rem;
-        }
-
         .main .block-container {
-            max-width: 900px;
+            max-width: 1000px;
             padding: 1.5rem;
         }
 
@@ -325,28 +582,108 @@ st.markdown("""
             margin-bottom: 2rem;
         }
 
-        .stRadio > div {
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .stRadio label {
-            font-size: 1rem;
-            padding: 0.75rem 1.5rem;
+        .header {
+            padding: 2.5rem 2rem;
         }
 
         .stButton > button {
-            padding: 0.8rem 2rem;
+            padding: 1rem 2rem;
             font-size: 1rem;
+            min-height: 52px;
         }
 
-        .header {
+        .stRadio > div > label {
+            padding: 1rem 1.5rem;
+            min-height: 56px;
+        }
+
+        .stRadio input[type="radio"] {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .footer {
             padding: 2.5rem;
         }
 
         .stImage img {
-            max-width: min(100%, 400px);
+            max-width: 400px;
         }
+    }
+
+    /* Large screens */
+    @media (min-width: 1200px) {
+        .main .block-container {
+            max-width: 1200px;
+        }
+
+        .card {
+            padding: 2.5rem;
+        }
+
+        .header {
+            padding: 3rem 2.5rem;
+        }
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        :root {
+            --border-light: var(--border-strong);
+            --shadow-xs: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+            --shadow-sm: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .stButton > button {
+            border: 2px solid var(--primary-color);
+        }
+
+        .stRadio > div > label {
+            border-width: 3px;
+        }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+
+        .stButton > button::before {
+            display: none;
+        }
+    }
+
+    /* Focus visible improvements */
+    .stButton > button:focus-visible,
+    .stRadio > div > label:focus-visible,
+    .stSelectbox > div > div:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: var(--border-radius);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-color);
     }
 </style>
 """, unsafe_allow_html=True)

@@ -62,16 +62,15 @@ def replace_background(original_img: Image.Image, background_removed_img: Image.
     
     return result
 
-# Custom CSS inspired by remove.bg
+# Custom CSS with simplified mobile view and color consistency
 st.markdown("""
 <style>
     /* Import modern fonts */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    /* CSS Variables inspired by remove.bg */
+    /* CSS Variables for consistent theming */
     :root {
         --primary-color: #4A3AFF;
-        --primary-dark: #3B2ECC;
         --text-primary: #1A1A1A;
         --text-secondary: #666666;
         --bg-primary: #FFFFFF;
@@ -89,8 +88,8 @@ st.markdown("""
         min-height: 100vh;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         color: var(--text-primary);
-        line-height: 1.6;
-        padding: 0.5rem;
+        line-height: 1.5;
+        padding: 1rem;
         box-sizing: border-box;
     }
 
@@ -98,8 +97,9 @@ st.markdown("""
     .main .block-container {
         max-width: 100%;
         margin: 0 auto;
-        padding: 1rem;
+        padding: 0;
         background: transparent;
+        width: 100%;
     }
 
     /* Card */
@@ -121,11 +121,10 @@ st.markdown("""
     .stRadio > div {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        padding: 0.5rem;
-        background: var(--bg-card);
+        gap: 1rem;
+        padding: 0;
+        background: transparent;
         border-radius: var(--border-radius);
-        border: 1px solid var(--border-color);
     }
 
     .stRadio label {
@@ -138,10 +137,11 @@ st.markdown("""
         border: 1px solid var(--border-color);
         transition: all 0.3s ease;
         cursor: pointer;
-        min-height: 48px;
+        min-height: 50px;
         display: flex;
         align-items: center;
         box-shadow: var(--shadow-light);
+        width: 100%;
     }
 
     .stRadio label:hover {
@@ -151,8 +151,8 @@ st.markdown("""
 
     .stRadio input[type="radio"] {
         accent-color: var(--primary-color);
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1.5rem;
+        height: 1.5rem;
         margin-right: 0.75rem;
     }
 
@@ -177,13 +177,13 @@ st.markdown("""
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: var(--shadow-light);
+        min-height: 50px;
         text-transform: none;
-        animation: fadeIn 0.5s ease-out;
     }
 
     .stButton > button:hover,
     .stButton > button:focus {
-        background: var(--primary-dark);
+        background: #3B2ECC;
         transform: scale(1.05);
         box-shadow: var(--shadow-medium);
         outline: none;
@@ -198,40 +198,32 @@ st.markdown("""
     .header {
         background: var(--bg-primary);
         border-radius: var(--border-radius-lg);
-        padding: 2rem;
-        margin-bottom: 2rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         text-align: center;
         box-shadow: var(--shadow-light);
-        position: relative;
     }
 
     .header h1 {
-        font-size: clamp(2rem, 5vw, 3rem);
+        font-size: clamp(1.5rem, 6vw, 2rem);
         font-weight: 700;
         font-family: 'Inter', sans-serif;
         color: var(--text-primary);
         margin-bottom: 0.5rem;
-        animation: fadeIn 0.5s ease-out;
     }
 
     .header p {
-        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        font-size: 1rem;
         color: var(--text-secondary);
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
     }
 
     /* Output images */
     .stImage img {
-        max-width: min(100%, 300px);
+        max-width: min(100%, 200px);
         height: auto;
         border-radius: var(--border-radius);
         box-shadow: var(--shadow-light);
         object-fit: contain;
-        animation: fadeIn 0.5s ease-out;
     }
 
     /* Footer */
@@ -253,53 +245,53 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
 
-    /* Mobile-specific styles */
+    /* Mobile-specific styles (refined for simplicity) */
     @media (max-width: 768px) {
         .stApp {
-            padding: 0.5rem;
+            padding: 1rem;
         }
 
         .main .block-container {
-            padding: 0.5rem;
+            padding: 0;
         }
 
         .card {
-            padding: 1rem;
-            margin-bottom: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .stRadio > div {
-            gap: 0.5rem;
-            padding: 0.5rem;
+            gap: 1rem;
         }
 
         .stRadio label {
-            font-size: 0.9rem;
-            padding: 0.5rem 0.75rem;
-            min-height: 48px;
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            min-height: 50px;
         }
 
         .stRadio input[type="radio"] {
-            width: 1rem;
-            height: 1rem;
-            margin-right: 0.5rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.75rem;
         }
 
         .stButton > button {
-            padding: 0.6rem 1rem;
-            font-size: 0.9rem;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            min-height: 50px;
         }
 
         .header {
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
         .header h1 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-size: clamp(1.5rem, 6vw, 2rem);
         }
 
         .header p {
-            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-size: 1rem;
         }
 
         .stImage img {
@@ -308,16 +300,16 @@ st.markdown("""
         }
 
         .footer {
-            padding: 1rem;
-            font-size: 0.8rem;
+            padding: 1.5rem;
+            font-size: 0.9rem;
         }
 
         .footer h4 {
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
     }
 
-    /* PC-specific styles */
+    /* PC-specific styles (unchanged) */
     @media (min-width: 769px) {
         .stApp {
             padding: 1rem;
